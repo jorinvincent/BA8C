@@ -55,8 +55,8 @@ def lloyds(k, n, points):
 
 
 
-reader = open("input.txt", "r")
-writer = open("output.txt", "w")
+reader = open("input", "r")
+writer = open("output", "w")
 
 temp = reader.readline().strip().split()
 k = int(temp[0])
