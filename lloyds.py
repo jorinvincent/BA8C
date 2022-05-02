@@ -4,7 +4,41 @@ def lloyds(k, n, points):
     converged = 10000
 
     while (converged > 0):
-        new_centers = converge(k, n, points, centers)
+        indices = []
+        for p in points:
+            best = 10000
+            index = -1
+
+            for i in range(0, k):
+                s = 0
+                for j in range(0, n):
+                    temp = ((p[j] - centers[i][j]) ** 2)
+                    s += temp
+
+                if (s < best):
+                    best = s
+                    index = i
+            
+            indices.append(index)
+        
+        new_centers = []
+        for i in range(0, k):
+            p = [0] * n
+            count = 0
+
+            for j in range(0, len(points)):
+                if (i == indices[j]):
+                    count += 1
+
+                    for x in range(0, n):
+                        p[x] += points[j][x]
+            
+            temp = []
+            for c in p:
+                s = (c / max(1, count))
+                temp.append(s)
+
+            new_centers.append(temp)
 
         d = []
         for i in range(0, k):
@@ -18,46 +52,6 @@ def lloyds(k, n, points):
         centers = new_centers
     
     return centers
-
-def converge(k, n, points, centers):
-    indices = []
-    new_centers = []
-
-    for p in points:
-        best = 10000
-        index = -1
-
-        for i in range(0, k):
-            s = 0
-            for j in range(0, n):
-                temp = ((p[j] - centers[i][j]) ** 2)
-                s += temp
-
-            if (s < best):
-                best = s
-                index = i
-        
-        indices.append(index)
-    
-    for i in range(0, k):
-        p = [0] * n
-        count = 0
-
-        for j in range(0, len(points)):
-            if (i == indices[j]):
-                count += 1
-
-                for k in range(0, n):
-                    p[k] += points[j][k]
-        
-        temp = []
-        for c in p:
-            s = (c / max(1, count))
-            temp.append(s)
-
-        new_centers.append(temp)
-
-    return new_centers
 
 
 
